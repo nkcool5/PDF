@@ -1,0 +1,54 @@
+Step 1: Open Ubuntu machine terminal and install dependencies and following command
+sudo apt install docker.io
+sudo docker pull ubuntu
+sudo docker run -it ubuntu
+
+Step 2: Inside docker container
+apt update
+exit
+
+Step 3: Outside container
+sudo docker ps -a
+copy container id
+
+sudo docker start <copied container id>
+example: sudo docker start 84
+Note: replace 84 with your container id
+
+Step 4: Check docker container started or not
+sudo docker ps
+
+Step 5: Now access docker container using container id
+sudo docker exec -it 84 bash
+Note: replace 84 with your container id
+
+Step 6: Install all the dependencies inside the docker container
+apt install wget curl python3 python3-pip
+apt install python3.12-venv 
+apt install poppler-utils
+apt-get install libjpeg-dev
+
+cd /home/ubuntu
+mkdir venv
+python3 -m venv venv/
+
+Step 7: Now open the browser and download the malicious pdf file in the system using below URL
+https://github.com/nkcool5/PDF/blob/main/payload1.pdf
+
+After download goto Downloads folder --> open terminal using right click --> type below command
+sudo docker cp payload1.pdf 84:home/ubuntu/
+Note: replace 84 with your container id
+
+Step 8: Follow step 5 to access the container and execute the following commands inside container
+./venv/bin/pip install peepdf
+./venv/bin/pip install pdfid
+
+
+Step 9: Use the tools for analysis
+./venv/bin/peepdf payload1.pdf
+./venv/bin/peepdf -i payload1.pdf
+
+python3 venv/lib/python3.12/site-packages/pdfid/pdfid.py 1.pdf
+
+pdfinfo 1.pdf
+
